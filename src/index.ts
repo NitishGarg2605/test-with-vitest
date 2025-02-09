@@ -6,23 +6,23 @@ app.use(express.json());
 app.post("/sum",  async(req:any, res:any)=> {
     const a=req.body.a;
     const b=req.body.b;
-    if(a>100000){
+    if(a>100000|| b>100000){
         return res.status(400).json({
         message:"Numbers should be less than or equal to 100000"
     });
     }
-    await prismaclient.request.create({
+   const request= await prismaclient.request.create({
         data:{
-            a,
-            b,
-            result:a+b,
+            a:a,
+            b:b,
+            answer:a+b,
             type:"sum"
         }
     })
 
     const result=a+b;
     
-    res.json({sum:result});
+    res.json({sum:result,id:request.id});
 
 })
 
